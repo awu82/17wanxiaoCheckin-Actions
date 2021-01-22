@@ -8,22 +8,33 @@ on:
   schedule:
    - cron: 0 22 * * *
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# # 获取第一类健康打卡的参数
+# json1 = {"businessType": "epmpics",
+#          "jsonData": {"templateid": "pneumonia", "token": token},
+#          "method": "userComeApp"}
+# post_dict = get_post_json(json1)
 
-    steps:
-    - uses: actions/checkout@v2
+# if post_dict:
+#     # 第一类健康打卡
+#     # print(post_dict)
 
-    - name: Pip
-      run: pip3 install requests pycryptodome
+#     # 修改温度等参数
+#     for j in post_dict['updatainfo']:  # 这里获取打卡json字段的打卡信息，微信推送的json字段
+#         if j['propertyname'] == 'temperature':  # 找到propertyname为temperature的字段
+#             j['value'] = '36.2'  # 由于原先为null，这里直接设置36.2（根据自己学校打卡选项来）
+#         if j['propertyname'] == '36.2':
+#             j['value'] = '36.2'
 
-    - name: HealthyCheckIn
-      run: python3 index.py
-      env:
-        USERNAME: ${{secrets.USERNAME}}
-        PASSWORD: ${{secrets.PASSWORD}}
-        SCKEY: ${{secrets.SCKEY}}
-        SEND_EMAIL: ${{secrets.SEND_EMAIL}}
-        SEND_PWD: ${{secrets.SEND_PWD}}
-        RECEIVE_EMAIL: ${{secrets.RECEIVE_EMAIL}}
+#     # 修改地址 areaStr can not be null ，依照自己完美校园，查一下地址即可
+#     post_dict['areaStr'] = '{"streetNumber":"89号","street":"三江镇","district":"","city":"清远市","province":"广东省",' \
+#                            '"town":"","pois":"连南瑶族自治县","lng":113.91572178314209,' \
+#                            '"lat":35.327695868943984,"address":"连南县三江镇红旗街","text":"广东省-清远市",' \
+#                            '"code":""} '
+#     healthy_check_dict = healthy_check_in(token, post_dict)
+#     check_dict_list.append(healthy_check_dict)
+# else:
+#     # 获取第二类健康打卡参数
+#     post_dict = get_recall_data(token)
+#     # 第二类健康打卡
+#     healthy_check_dict = receive_check_in(token, custom_id_dict['customerId'], post_dict)
+#     check_dict_list.append(healthy_check_dict)
